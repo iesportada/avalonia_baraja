@@ -1,0 +1,86 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:vm="using:MVVM_Baraja.ViewModels"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:models="clr-namespace:MVVM_Baraja.Models"
+        xmlns:helpers="clr-namespace:MVVM_Baraja.Helpers"
+        mc:Ignorable="d" d:DesignWidth="{Binding $self.Width}" d:DesignHeight="{Binding $self.Height}"
+        x:Class="MVVM_Baraja.Views.MainWindow"
+        x:DataType="vm:MainWindowViewModel"
+        Icon="/Assets/avalonia-logo.ico"
+        Title="Baraja de naipes españoles"
+        Width="350" Height="570">
+    
+    <Window.Resources>
+        <helpers:ImageConverter x:Key="MiCreadordeImagenes"/>
+    </Window.Resources>
+    
+    <Design.DataContext>
+        <!-- This only sets the DataContext for the previewer in an IDE,
+             to set the actual DataContext for runtime, set the DataContext property in code (look at App.axaml.cs) -->
+        <vm:MainWindowViewModel/>
+    </Design.DataContext>
+
+    <DockPanel Background="Khaki">
+        <TextBlock DockPanel.Dock = "Top" Text="{Binding Greeting}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+        <Label FontSize="12" Background="Brown" Foreground="White" Name="LblPalosBaraja" DockPanel.Dock="Top" Content="{Binding NumPalos, StringFormat='Nº de Palos: {0}'}"/>
+        <Label FontSize="12" Background="Brown" Foreground="White" Name="LblValoresBaraja" DockPanel.Dock="Top" Content="{Binding NumValores, StringFormat='Nº de Naipes / Palo: {0}'}"/>
+        
+        <Label Background="Brown" Foreground="White" Name="LblEstado" DockPanel.Dock="Bottom" Content="{Binding Baraja.NumNaipes, StringFormat='Nº de naipes: {0}'}"/>
+        <Label FontSize="10" Background="Brown" Foreground="White" Name="LblEstado2" DockPanel.Dock="Bottom" Content="{Binding ListadoNaipes}"/>
+        
+            <StackPanel Name="Tapete" Margin="10">
+                <ItemsControl ItemsSource="{Binding TileList}">
+                    <ItemsControl.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <Canvas Width="50" Height="50" Background="Yellow" Margin="3"/>
+                        </ItemsPanelTemplate>
+                    </ItemsControl.ItemsPanel>
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <Rectangle Fill="Green" Height="{Binding Size}" Width="{Binding Size}"/>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                    <ItemsControl.Styles>
+                        <Style Selector="ContentPresenter"  x:DataType="models:Tile">
+                            <Setter Property="Canvas.Left" Value="{Binding TopX}"/>
+                            <Setter Property="Canvas.Top" Value="{Binding TopY}"/>
+                        </Style>
+                    </ItemsControl.Styles>
+                </ItemsControl>
+                <Canvas Width="330" Height="125" Background="Yellow" Margin="2" >
+                    <Image Canvas.Left="10" Canvas.Top="10" Width= "50" Stretch="Uniform" Source="/Assets/Imagenes/1O.png" />
+                    <Image Canvas.Left="30" Canvas.Top="20" Width= "50" Stretch="Uniform" Source="/Assets/Imagenes/1C.png" />
+                    <Image Canvas.Left="50" Canvas.Top="30" Width= "50" Stretch="Uniform" Source="/Assets/Imagenes/1E.png" />
+                    <Image Canvas.Left="70" Canvas.Top="40" Width= "50" Stretch="Uniform" Source="/Assets/Imagenes/1B.png" />
+                </Canvas>
+                <ItemsControl ItemsSource="{Binding Mazo}">
+                    <ItemsControl.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <Canvas Width="330" Height="220" Background="LimeGreen" Margin="2"/>
+                        </ItemsPanelTemplate>
+                    </ItemsControl.ItemsPanel>
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <Image  Height="75" Stretch="Uniform" Source="{Binding RutaImagen, Converter={StaticResource MiCreadordeImagenes}}"/>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                    <ItemsControl.Styles>
+                        <Style Selector="ContentPresenter"  x:DataType="models:Naipe">
+                            <Setter Property="Canvas.Left" Value="{Binding TopX}"/>
+                            <Setter Property="Canvas.Top" Value="{Binding TopY}"/>
+                        </Style>
+                    </ItemsControl.Styles>
+                </ItemsControl>
+                
+                <DockPanel DockPanel.Dock="Bottom">
+                    <Button DockPanel.Dock="Right" Background="Red" Foreground="White" Name="BtnSalir" Content="Salir" Click="BtnSalir_OnClick"/>
+                    <Button DockPanel.Dock="Left" Name="BtnBarajar" Content="Barajar" Command="{Binding CmdBarajar}" />
+                    <Button DockPanel.Dock="Left" Name="BtnOrdenar" Content="Ordenar" Command="{Binding CmdOrdenar}" />
+                </DockPanel>
+            </StackPanel>    
+        
+    </DockPanel>
+    
+</Window>
