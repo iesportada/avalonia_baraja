@@ -8,9 +8,25 @@ static class Extensions
 {
     public static void Sort<T>(this ObservableCollection<T> miColeccion) where T : IComparable
     {
-        List<T> ordenada = miColeccion.OrderBy(x => x).ToList();
+        //List<T> ordenada = miColeccion.OrderBy(x => x).ToList();
+        List<T> ordenada = miColeccion.ToList();
+        ordenada.Sort((IComparer<T>?) new OrdenarPorTodo());
         for (int i = 0; i < ordenada.Count(); i++)
             miColeccion.Move(miColeccion.IndexOf(ordenada[i]), i);
+    }
+}
+class OrdenarPorTodo : IComparer<Naipe>
+{
+    public int Compare(Naipe? x, Naipe? y)
+    {
+        if (x != null && y != null) {
+            if (x.Palo == y.Palo)
+                return x.Peso.CompareTo(y.Peso); 
+            else
+                return x.Palo.CompareTo(y.Palo);
+        }
+        else
+            return 0;
     }
 }
 public class BarajaSP: IBaraja, ICloneable
@@ -24,7 +40,7 @@ public class BarajaSP: IBaraja, ICloneable
     }
     public BarajaSP(int nCartas) {
         
-        _mazo = new ObservableCollection<Naipe>();
+        _mazo = new ();
 
         int contador = 0;
         while (contador < nCartas)
@@ -109,6 +125,11 @@ public class BarajaSP: IBaraja, ICloneable
     public bool Contiene(Naipe unNaipe) 
     {
         return _mazo.Contains(unNaipe);
+    }
+    // Posición que ocupa el naipe en la colección. -1 si no se encuentra
+    public int Posicion(Naipe unNaipe)
+    {
+        return _mazo.IndexOf(unNaipe);
     }
     public void OrdenarPorValor() {
         _mazo.Sort<Naipe>();

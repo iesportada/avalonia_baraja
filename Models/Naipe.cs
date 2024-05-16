@@ -10,12 +10,11 @@ public class Naipe:  INaipe, IEquatable<Naipe>, IComparable
     public PaloSP Palo {get;}   //Autopropiedad
     public Figura Peso {get;}
     public String RutaImagen { get; set; }   //Necesitaremos un Converter en el View para generar la imagen
-    public int TopX => (int) Palo * 60 + 50;
-    public int TopY => (int) Peso * 25;
     public Naipe(PaloSP unpalo, Figura unpeso) {
         Palo = unpalo;
         Peso = unpeso;
         RutaImagen = $"avares://MVVM_Baraja/Assets/Imagenes/{(int)Peso}{Palo}.png";
+
         //RutaImagen = ImageHelper.LoadFromResource(new Uri($"avares://MVVM_Baraja/Assets/Imagenes/{(int)Peso}{Palo}.png"));
     }
     public Naipe() {

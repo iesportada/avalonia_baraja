@@ -10,10 +10,13 @@
         x:DataType="vm:MainWindowViewModel"
         Icon="/Assets/avalonia-logo.ico"
         Title="Baraja de naipes españoles"
-        Width="350" Height="570">
+        Width="350" Height="650">
     
     <Window.Resources>
         <helpers:ImageConverter x:Key="MiCreadordeImagenes"/>
+        <helpers:PosXNaipeConverter x:Key="PosXNaipe"/>
+        <helpers:PosYNaipeConverter x:Key="PosYNaipe"/>
+
     </Window.Resources>
     
     <Design.DataContext>
@@ -22,7 +25,7 @@
         <vm:MainWindowViewModel/>
     </Design.DataContext>
 
-    <DockPanel Background="Khaki">
+    <DockPanel Name="SuperDock" Background="Khaki">
         <TextBlock DockPanel.Dock = "Top" Text="{Binding Greeting}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
         <Label FontSize="12" Background="Brown" Foreground="White" Name="LblPalosBaraja" DockPanel.Dock="Top" Content="{Binding NumPalos, StringFormat='Nº de Palos: {0}'}"/>
         <Label FontSize="12" Background="Brown" Foreground="White" Name="LblValoresBaraja" DockPanel.Dock="Top" Content="{Binding NumValores, StringFormat='Nº de Naipes / Palo: {0}'}"/>
@@ -55,10 +58,10 @@
                     <Image Canvas.Left="50" Canvas.Top="30" Width= "50" Stretch="Uniform" Source="/Assets/Imagenes/1E.png" />
                     <Image Canvas.Left="70" Canvas.Top="40" Width= "50" Stretch="Uniform" Source="/Assets/Imagenes/1B.png" />
                 </Canvas>
-                <ItemsControl ItemsSource="{Binding Mazo}">
+                <ItemsControl Name="ElMazo" ItemsSource="{Binding Mazo}">
                     <ItemsControl.ItemsPanel>
                         <ItemsPanelTemplate>
-                            <Canvas Width="330" Height="220" Background="LimeGreen" Margin="2"/>
+                            <Canvas Width="330" Height="320" Background="LimeGreen" Margin="2"/>
                         </ItemsPanelTemplate>
                     </ItemsControl.ItemsPanel>
                     <ItemsControl.ItemTemplate>
@@ -68,8 +71,19 @@
                     </ItemsControl.ItemTemplate>
                     <ItemsControl.Styles>
                         <Style Selector="ContentPresenter"  x:DataType="models:Naipe">
-                            <Setter Property="Canvas.Left" Value="{Binding TopX}"/>
-                            <Setter Property="Canvas.Top" Value="{Binding TopY}"/>
+                            <Setter Property="Canvas.Left">
+                                <MultiBinding Converter="{StaticResource PosXNaipe}" ConverterParameter="7">
+                                    <Binding ElementName="ElMazo" Path="ItemsSource" />
+                                    <Binding Path="." />
+                                </MultiBinding>
+                            </Setter>
+                            <Setter Property="Canvas.Top">
+                                <MultiBinding Converter="{StaticResource PosYNaipe}" ConverterParameter="7">
+                                    <Binding ElementName="ElMazo" Path="ItemsSource" />
+                                    <Binding Path="." />
+                                    <Binding ElementName="LblValoresBaraja" Path="Content"/>
+                                </MultiBinding>
+                            </Setter>
                         </Style>
                     </ItemsControl.Styles>
                 </ItemsControl>
