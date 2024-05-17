@@ -10,12 +10,19 @@ using MVVM_Baraja.Models;
 namespace MVVM_Baraja.ViewModels;
 public sealed class MainWindowViewModel : INotifyPropertyChanged
 {
-    private readonly BarajaSP _miBaraja = new BarajaSP();
+    private BarajaSP _miBaraja = new BarajaSP();
     public BarajaSP Baraja => _miBaraja;
+    public int NumeroNaipes => _miBaraja.NumNaipes;
     public ObservableCollection<Naipe> Mazo => _miBaraja.Mazo;
     public int NumPalos { get; } = Enum.GetValues(typeof(PaloSP)).Length;
     public int NumValores { get; } = Enum.GetValues(typeof(Figura)).Length;
 
+    public bool PuedoExtraer
+    {
+        get => _miBaraja.NumNaipes > 0;
+        set => OnPropertyChanged();
+    }
+    
     public string ListadoNaipes => _miBaraja.ToString();
 
     public string Greeting => "¡Bienvenido al juego de naipes!";
@@ -45,6 +52,20 @@ public sealed class MainWindowViewModel : INotifyPropertyChanged
         Debug.WriteLine(_miBaraja);
     }
 
+    public void CmdExtraer()
+    {
+        if (_miBaraja.NumNaipes > 0)
+            _miBaraja.ExtraerNaipe();
+
+        PuedoExtraer = _miBaraja.NumNaipes > 0;
+        OnPropertyChanged(nameof(ListadoNaipes));
+        OnPropertyChanged(nameof(NumeroNaipes));
+    }
+
+    public void CmdReset()
+    {
+        //_miBaraja.Reset();
+    }
     public event PropertyChangedEventHandler? PropertyChanged;
 
     private void OnPropertyChanged([CallerMemberName] string? propertyName = null)

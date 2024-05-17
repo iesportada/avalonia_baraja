@@ -30,7 +30,7 @@
         <Label FontSize="12" Background="Brown" Foreground="White" Name="LblPalosBaraja" DockPanel.Dock="Top" Content="{Binding NumPalos, StringFormat='Nº de Palos: {0}'}"/>
         <Label FontSize="12" Background="Brown" Foreground="White" Name="LblValoresBaraja" DockPanel.Dock="Top" Content="{Binding NumValores, StringFormat='Nº de Naipes / Palo: {0}'}"/>
         
-        <Label Background="Brown" Foreground="White" Name="LblEstado" DockPanel.Dock="Bottom" Content="{Binding Baraja.NumNaipes, StringFormat='Nº de naipes: {0}'}"/>
+        <Label Background="Brown" Foreground="White" Name="LblEstado" DockPanel.Dock="Bottom" Content="{Binding NumeroNaipes, StringFormat='Nº de naipes: {0}'}"/>
         <Label FontSize="10" Background="Brown" Foreground="White" Name="LblEstado2" DockPanel.Dock="Bottom" Content="{Binding ListadoNaipes}"/>
         
             <StackPanel Name="Tapete" Margin="10">
@@ -72,13 +72,13 @@
                     <ItemsControl.Styles>
                         <Style Selector="ContentPresenter"  x:DataType="models:Naipe">
                             <Setter Property="Canvas.Left">
-                                <MultiBinding Converter="{StaticResource PosXNaipe}" ConverterParameter="7">
+                                <MultiBinding Converter="{StaticResource PosXNaipe}" ConverterParameter="10">
                                     <Binding ElementName="ElMazo" Path="ItemsSource" />
                                     <Binding Path="." />
                                 </MultiBinding>
                             </Setter>
                             <Setter Property="Canvas.Top">
-                                <MultiBinding Converter="{StaticResource PosYNaipe}" ConverterParameter="7">
+                                <MultiBinding Converter="{StaticResource PosYNaipe}" ConverterParameter="10">
                                     <Binding ElementName="ElMazo" Path="ItemsSource" />
                                     <Binding Path="." />
                                     <Binding ElementName="LblValoresBaraja" Path="Content"/>
@@ -92,9 +92,9 @@
                     <Button DockPanel.Dock="Right" Background="Red" Foreground="White" Name="BtnSalir" Content="Salir" Click="BtnSalir_OnClick"/>
                     <Button DockPanel.Dock="Left" Name="BtnBarajar" Content="Barajar" Command="{Binding CmdBarajar}" />
                     <Button DockPanel.Dock="Left" Name="BtnOrdenar" Content="Ordenar" Command="{Binding CmdOrdenar}" />
+                    <Button DockPanel.Dock="Left" Name="BtnExtraer" IsEnabled="{Binding PuedoExtraer}"  Content="Extraer" Command="{Binding CmdExtraer}" />
+                    <Button DockPanel.Dock="Left" Background="Green" Name="BtnReset" Content="Reset" Command="{Binding CmdReset}" />
                 </DockPanel>
             </StackPanel>    
-        
     </DockPanel>
-    
 </Window>

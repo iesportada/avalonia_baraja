@@ -14,7 +14,7 @@ public class PosXNaipeConverter : IMultiValueConverter
     public object? Convert(IList<object?> values, Type targetType, object? parameter, CultureInfo culture)
     {
         var lista = (ObservableCollection<Naipe>) values[0]!; // colección donde buscar
-        return lista.IndexOf((Naipe)values[1]!) % int.Parse((string) parameter!) * 30; // naipe que buscamos en la colección % nº naipes/palo
+        return lista.IndexOf((Naipe)values[1]!) % int.Parse((string) parameter!) * 30 + 5; // naipe que buscamos en la colección % nº naipes/palo
     }
 }
 
@@ -23,6 +23,6 @@ public class PosYNaipeConverter : IMultiValueConverter
     public object? Convert(IList<object?> values, Type targetType, object? parameter, CultureInfo culture)
     {
         var lista = (ObservableCollection<Naipe>) values[0]!; // colección donde buscar
-        return lista.IndexOf((Naipe)values[1]!) / int.Parse((string) parameter!) * 80; // naipe que buscamos en la colección 
+        return lista.IndexOf((Naipe)values[1]!) / int.Parse((string) parameter!) * 80 + 5; // naipe que buscamos en la colección 
     }
 }

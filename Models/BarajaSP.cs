@@ -10,23 +10,9 @@ static class Extensions
     {
         //List<T> ordenada = miColeccion.OrderBy(x => x).ToList();
         List<T> ordenada = miColeccion.ToList();
-        ordenada.Sort((IComparer<T>?) new OrdenarPorTodo());
+        ordenada.Sort((IComparer<T>?) new OrdenarPorPaloyValor());
         for (int i = 0; i < ordenada.Count(); i++)
             miColeccion.Move(miColeccion.IndexOf(ordenada[i]), i);
-    }
-}
-class OrdenarPorTodo : IComparer<Naipe>
-{
-    public int Compare(Naipe? x, Naipe? y)
-    {
-        if (x != null && y != null) {
-            if (x.Palo == y.Palo)
-                return x.Peso.CompareTo(y.Peso); 
-            else
-                return x.Palo.CompareTo(y.Palo);
-        }
-        else
-            return 0;
     }
 }
 public class BarajaSP: IBaraja, ICloneable
