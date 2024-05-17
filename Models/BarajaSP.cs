@@ -55,6 +55,23 @@ public class BarajaSP: IBaraja, ICloneable
             }
         }
     }
+
+    public void Reset()
+    {
+        int fig;
+        int numPalos = Enum.GetValues(typeof(PaloSP)).Length; //4
+        int numFiguras = Enum.GetValues(typeof(Figura)).Length; //12
+
+        _mazo.Clear(); //Vaciamos la colección
+
+        for (int p = 0; p < numPalos; p++) 
+        {
+            for (int f = 1; f <= numFiguras; f++) {
+                fig = (f > 7) ? f + 2: f; 
+                _mazo.Add(new Naipe((PaloSP) p, (Figura) fig));
+            }
+        }
+    }
     public void Barajar()
     {
         int pos;

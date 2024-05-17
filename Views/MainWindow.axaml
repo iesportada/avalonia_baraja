@@ -16,7 +16,6 @@
         <helpers:ImageConverter x:Key="MiCreadordeImagenes"/>
         <helpers:PosXNaipeConverter x:Key="PosXNaipe"/>
         <helpers:PosYNaipeConverter x:Key="PosYNaipe"/>
-
     </Window.Resources>
     
     <Design.DataContext>

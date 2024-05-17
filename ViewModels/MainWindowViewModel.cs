@@ -64,7 +64,7 @@ public sealed class MainWindowViewModel : INotifyPropertyChanged
 
     public void CmdReset()
     {
-        //_miBaraja.Reset();
+        _miBaraja.Reset();
     }
     public event PropertyChangedEventHandler? PropertyChanged;
 
