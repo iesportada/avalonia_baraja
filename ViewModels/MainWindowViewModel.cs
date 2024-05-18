@@ -4,25 +4,37 @@ using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.Runtime.CompilerServices;
+using System.Threading.Tasks;
+using Avalonia.Media.Imaging;
 using MVVM_Baraja.Helpers;
 using MVVM_Baraja.Models;
 
 namespace MVVM_Baraja.ViewModels;
 public sealed class MainWindowViewModel : INotifyPropertyChanged
 {
-    private BarajaSP _miBaraja = new BarajaSP();
+    private readonly BarajaSP _miBaraja = new BarajaSP();
     public BarajaSP Baraja => _miBaraja;
     public int NumeroNaipes => _miBaraja.NumNaipes;
     public ObservableCollection<Naipe> Mazo => _miBaraja.Mazo;
     public int NumPalos { get; } = Enum.GetValues(typeof(PaloSP)).Length;
     public int NumValores { get; } = Enum.GetValues(typeof(Figura)).Length;
 
-    public bool PuedoExtraer
+    private Bitmap? _naipeExtraido;
+
+    public Bitmap? NaipeExtraido
     {
-        get => _miBaraja.NumNaipes > 0;
-        set => OnPropertyChanged();
+        get => _naipeExtraido!;
+        set
+        {
+            if (!Equals(value, _naipeExtraido))
+            {
+                _naipeExtraido = value;
+                OnPropertyChanged();
+            }
+        }
     }
-    
+    public Task<Bitmap?> Reverso => ImageHelper.LoadFromWeb(new Uri("https://iesportada.org/joomla/images/reverso.jpg"));
+    public bool PuedoExtraer => _miBaraja.NumNaipes > 0;
     public string ListadoNaipes => _miBaraja.ToString();
 
     public string Greeting => "¡Bienvenido al juego de naipes!";
@@ -40,33 +52,38 @@ public sealed class MainWindowViewModel : INotifyPropertyChanged
         _miBaraja.Barajar();
         OnPropertyChanged(nameof(ListadoNaipes));  // equivale a OnPropertyChanged("ListadoNaipes"); Necesitamos el nombre de la propiedad, no su contenido
         // OnPropertyChanged(nameof(Mazo)); No es necesario al ser ObservableCollection
-
         Debug.WriteLine(_miBaraja);
     }
     public void CmdOrdenar()
     {
         _miBaraja.OrdenarPorValor();
         OnPropertyChanged(nameof(ListadoNaipes));  // equivale a OnPropertyChanged("ListadoNaipes"); Necesitamos el nombre de la propiedad, no su contenido
-        // OnPropertyChanged(nameof(Mazo)); No es necesario al ser ObservableCollection
 
         Debug.WriteLine(_miBaraja);
     }
 
     public void CmdExtraer()
     {
-        if (_miBaraja.NumNaipes > 0)
-            _miBaraja.ExtraerNaipe();
-
-        PuedoExtraer = _miBaraja.NumNaipes > 0;
-        OnPropertyChanged(nameof(ListadoNaipes));
-        OnPropertyChanged(nameof(NumeroNaipes));
+        if (PuedoExtraer)
+        {
+            var extraido = _miBaraja.ExtraerNaipe();
+            if (extraido != null)
+            {
+                NaipeExtraido = ImageHelper.LoadFromResource(new Uri(extraido.RutaImagen));
+            }
+            OnPropertyChanged(nameof(ListadoNaipes));
+            OnPropertyChanged(nameof(NumeroNaipes));
+        }
+        OnPropertyChanged(nameof(PuedoExtraer));
     }
 
     public void CmdReset()
     {
         _miBaraja.Reset();
+        NaipeExtraido = null;
         OnPropertyChanged(nameof(ListadoNaipes));
         OnPropertyChanged(nameof(NumeroNaipes));
+        OnPropertyChanged(nameof(PuedoExtraer));
     }
     public event PropertyChangedEventHandler? PropertyChanged;
 

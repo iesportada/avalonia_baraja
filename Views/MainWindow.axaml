@@ -57,6 +57,9 @@
                     <Image Canvas.Left="30" Canvas.Top="20" Width= "50" Stretch="Uniform" Source="/Assets/Imagenes/1C.png" />
                     <Image Canvas.Left="50" Canvas.Top="30" Width= "50" Stretch="Uniform" Source="/Assets/Imagenes/1E.png" />
                     <Image Canvas.Left="70" Canvas.Top="40" Width= "50" Stretch="Uniform" Source="/Assets/Imagenes/1B.png" />
+                    <Image Canvas.Left="200" Canvas.Top="10" Width= "70" Stretch="Uniform" Source="{Binding Reverso^}" />
+                    <Image Canvas.Left="205" Canvas.Top="10" Width= "70" Stretch="Uniform" Source="{Binding NaipeExtraido}" />
+
                 </Canvas>
                 <ItemsControl Name="ElMazo" ItemsSource="{Binding Mazo}">
                     <ItemsControl.ItemsPanel>
@@ -92,7 +95,7 @@
                     <Button DockPanel.Dock="Right" Background="Red" Foreground="White" Name="BtnSalir" Content="Salir" Click="BtnSalir_OnClick"/>
                     <Button DockPanel.Dock="Left" Name="BtnBarajar" Content="Barajar" Command="{Binding CmdBarajar}" />
                     <Button DockPanel.Dock="Left" Name="BtnOrdenar" Content="Ordenar" Command="{Binding CmdOrdenar}" />
-                    <Button DockPanel.Dock="Left" Name="BtnExtraer" IsEnabled="{Binding PuedoExtraer}"  Content="Extraer" Command="{Binding CmdExtraer}" />
+                    <Button DockPanel.Dock="Left" Name="BtnExtraer" IsEnabled="{Binding PuedoExtraer}" Content="Extraer" Command="{Binding CmdExtraer}" />
                     <Button DockPanel.Dock="Left" Background="Green" Name="BtnReset" Content="Reset" Command="{Binding CmdReset}" />
                 </DockPanel>
             </StackPanel>    

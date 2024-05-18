@@ -8,4 +8,5 @@ public enum Figura {As=1, Dos=2, Tres=3, Cuatro=4, Cinco=5, Seis=6, Siete=7, Sot
 public interface INaipe {
     PaloSP Palo {get;}
     Figura Peso {get;}
+    string RutaImagen { get; set; }
 }
