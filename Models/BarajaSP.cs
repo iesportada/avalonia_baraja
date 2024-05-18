@@ -56,6 +56,10 @@ public class BarajaSP: IBaraja, ICloneable
         }
     }
 
+    public void Vaciar()
+    {
+        _mazo.Clear();
+    }
     public void Reset()
     {
         int fig;
@@ -109,6 +113,10 @@ public class BarajaSP: IBaraja, ICloneable
         return ExtraerNaipe(0);
     }
 
+    public INaipe? ExtraerUltimoNaipe()
+    {
+        return (_mazo.Count > 0) ? ExtraerNaipe(_mazo.Count - 1) : null;
+    }
     public override string ToString()
     {
         string cadena = String.Empty;

@@ -13,14 +13,15 @@ namespace MVVM_Baraja.ViewModels;
 public sealed class MainWindowViewModel : INotifyPropertyChanged
 {
     private readonly BarajaSP _miBaraja = new BarajaSP();
-    public BarajaSP Baraja => _miBaraja;
-    public int NumeroNaipes => _miBaraja.NumNaipes;
-    public ObservableCollection<Naipe> Mazo => _miBaraja.Mazo;
-    public int NumPalos { get; } = Enum.GetValues(typeof(PaloSP)).Length;
-    public int NumValores { get; } = Enum.GetValues(typeof(Figura)).Length;
-
+    private readonly BarajaSP _listaExtraidos = new BarajaSP(0); // la iniciamos con 0 cartas
     private Bitmap? _naipeExtraido;
 
+    public int NumeroNaipes => _miBaraja.NumNaipes;
+    public ObservableCollection<Naipe> Mazo => _miBaraja.Mazo;
+    public ObservableCollection<Naipe> MazoExtraido => _listaExtraidos.Mazo;
+    public int NumPalos { get; } = Enum.GetValues(typeof(PaloSP)).Length;
+    public int NumValores { get; } = Enum.GetValues(typeof(Figura)).Length;
+    
     public Bitmap? NaipeExtraido
     {
         get => _naipeExtraido!;
@@ -66,11 +67,10 @@ public sealed class MainWindowViewModel : INotifyPropertyChanged
     {
         if (PuedoExtraer)
         {
-            var extraido = _miBaraja.ExtraerNaipe();
-            if (extraido != null)
-            {
-                NaipeExtraido = ImageHelper.LoadFromResource(new Uri(extraido.RutaImagen));
-            }
+            var extraido = (Naipe?) _miBaraja.ExtraerNaipe()!;
+            
+            NaipeExtraido = ImageHelper.LoadFromResource(new Uri(extraido.RutaImagen));
+            MazoExtraido.Add(extraido);
             OnPropertyChanged(nameof(ListadoNaipes));
             OnPropertyChanged(nameof(NumeroNaipes));
         }
@@ -80,7 +80,17 @@ public sealed class MainWindowViewModel : INotifyPropertyChanged
     public void CmdReset()
     {
         _miBaraja.Reset();
+        _listaExtraidos.Vaciar();
         NaipeExtraido = null;
+        OnPropertyChanged(nameof(ListadoNaipes));
+        OnPropertyChanged(nameof(NumeroNaipes));
+        OnPropertyChanged(nameof(PuedoExtraer));
+    }
+
+    public void CmdDevolverLista()
+    {
+        var extraer = _listaExtraidos.ExtraerUltimoNaipe();
+        _miBaraja.InsertarNaipe(extraer!);
         OnPropertyChanged(nameof(ListadoNaipes));
         OnPropertyChanged(nameof(NumeroNaipes));
         OnPropertyChanged(nameof(PuedoExtraer));
