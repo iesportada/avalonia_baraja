@@ -65,6 +65,8 @@ public sealed class MainWindowViewModel : INotifyPropertyChanged
     public void CmdReset()
     {
         _miBaraja.Reset();
+        OnPropertyChanged(nameof(ListadoNaipes));
+        OnPropertyChanged(nameof(NumeroNaipes));
     }
     public event PropertyChangedEventHandler? PropertyChanged;
 

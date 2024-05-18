@@ -10,7 +10,8 @@
         x:DataType="vm:MainWindowViewModel"
         Icon="/Assets/avalonia-logo.ico"
         Title="Baraja de naipes españoles"
-        Width="350" Height="650">
+        Width="350" Height="650"
+        CanResize="False">
     
     <Window.Resources>
         <helpers:ImageConverter x:Key="MiCreadordeImagenes"/>
