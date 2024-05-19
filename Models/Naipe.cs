@@ -1,6 +1,4 @@
 using System;
-using Avalonia.Media.Imaging;
-using MVVM_Baraja.Helpers;
 namespace MVVM_Baraja.Models;
 
 //public class Naipe:  INaipe, IComparable<Naipe>, IEquatable<Naipe>

@@ -66,22 +66,21 @@
                     </ItemsControl.ItemsPanel>
                     <ItemsControl.ItemTemplate>
                         <DataTemplate>
-                            <Image  Height="75" Stretch="Uniform" Source="{Binding RutaImagen, Converter={StaticResource MiCreadordeImagenes}}"/>
+                            <Image Height="75" Stretch="Uniform" Source="{Binding RutaImagen, Converter={StaticResource MiCreadordeImagenes}}"/>
                         </DataTemplate>
                     </ItemsControl.ItemTemplate>
                     <ItemsControl.Styles>
                         <Style Selector="ContentPresenter"  x:DataType="models:Naipe">
                             <Setter Property="Canvas.Left">
-                                <MultiBinding Converter="{StaticResource PosXNaipe}" ConverterParameter="10">
+                                <MultiBinding Converter="{StaticResource PosXNaipe}" >
                                     <Binding ElementName="ElMazo" Path="ItemsSource" />
                                     <Binding Path="." />
                                 </MultiBinding>
                             </Setter>
                             <Setter Property="Canvas.Top">
-                                <MultiBinding Converter="{StaticResource PosYNaipe}" ConverterParameter="10">
+                                <MultiBinding Converter="{StaticResource PosYNaipe}" >
                                     <Binding ElementName="ElMazo" Path="ItemsSource" />
                                     <Binding Path="." />
-                                    <Binding ElementName="LblValoresBaraja" Path="Content"/>
                                 </MultiBinding>
                             </Setter>
                         </Style>
