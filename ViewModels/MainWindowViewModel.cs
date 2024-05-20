@@ -25,6 +25,7 @@ public sealed class MainWindowViewModel : INotifyPropertyChanged
     public string ListadoNaipes => _miBaraja.ToString();
 
     public string Greeting => "¡Bienvenido al juego de naipes!";
+    public bool OrdenTotal { get; set; } = true;
     
     // public Task<Bitmap?> ImageFromWebsite { get; } = ImageHelper.LoadFromWeb(new Uri("https://upload.wikimedia.org/wikipedia/commons/4/41/NewtonsPrincipia.jpg"));
     // public Bitmap? ImagenNaipe { get; } = ImageHelper.LoadFromResource(new Uri("avares://MVVM_Baraja/Assets/Imagenes/12E.png"));
@@ -43,7 +44,11 @@ public sealed class MainWindowViewModel : INotifyPropertyChanged
     }
     public void CmdOrdenar()
     {
-        _miBaraja.OrdenarPorValor();
+        if (OrdenTotal)
+            _miBaraja.Ordenar();
+        else
+            _miBaraja.OrdenarPorPalo();
+        
         OnPropertyChanged(nameof(ListadoNaipes));  // equivale a OnPropertyChanged("ListadoNaipes"); Necesitamos el nombre de la propiedad, no su contenido
 
         Debug.WriteLine(_miBaraja);

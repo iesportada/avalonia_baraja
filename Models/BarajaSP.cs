@@ -2,15 +2,23 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
-using MVVM_Baraja.Models;
+
+namespace MVVM_Baraja.Models;
 
 static class Extensions
 {
-    public static void Sort<T>(this ObservableCollection<T> miColeccion) where T : IComparable
+    public static void Ordenar<T>(this ObservableCollection<T> miColeccion) where T : IComparable
     {
         //List<T> ordenada = miColeccion.OrderBy(x => x).ToList();
         List<T> ordenada = miColeccion.ToList();
         ordenada.Sort((IComparer<T>?) new OrdenarPorPaloyValor());
+        for (int i = 0; i < ordenada.Count(); i++)
+            miColeccion.Move(miColeccion.IndexOf(ordenada[i]), i);
+    }
+    public static void OrdenarPorPalo<T>(this ObservableCollection<T> miColeccion ) where T : IComparable
+    {
+        List<T> ordenada = miColeccion.ToList();
+        ordenada.Sort((IComparer<T>?) new OrdenarPorPalo());
         for (int i = 0; i < ordenada.Count(); i++)
             miColeccion.Move(miColeccion.IndexOf(ordenada[i]), i);
     }
@@ -142,19 +150,14 @@ public class BarajaSP: IBaraja, ICloneable
     {
         return _mazo.IndexOf(unNaipe);
     }
-    public void OrdenarPorValor() {
-        _mazo.Sort<Naipe>();
+    public void Ordenar() 
+    {
+        _mazo.Ordenar();
     }
-    
-    public void OrdenarPorPalo() {
-        // _mazo.Sort(new OrdenarColeccionPorPalo());
-        throw new Exception("Método por resolver");
+    public void OrdenarPorPalo() 
+    {
+         _mazo.OrdenarPorPalo();
     }
-    public void Ordenar() {
-        // _mazo.Sort(new OrdenarPorPaloyValor());
-        throw new Exception("Método por resolver");
-    }
-
     public object Clone2() //Debemos hacer una copia profunda del objeto
     {
         //return this.MemberwiseClone(); No sirve, es copia superficial
@@ -176,7 +179,7 @@ public class BarajaSP: IBaraja, ICloneable
         return copia;
     }
 }
-class OrdenarColeccionPorPalo : IComparer<Naipe>
+class OrdenarPorPalo : IComparer<Naipe>
 {
     public int Compare(Naipe? x, Naipe? y)
     {

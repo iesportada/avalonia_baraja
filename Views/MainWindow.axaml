@@ -34,27 +34,37 @@
         <Label FontSize="10" Background="Brown" Foreground="White" Name="LblEstado2" DockPanel.Dock="Bottom" Content="{Binding ListadoNaipes}"/>
         
             <StackPanel Name="Tapete" Margin="10">
-                <Canvas Width="330" Height="155" Background="Yellow" Margin="2" >
-                    <ItemsControl Canvas.Left="10" Canvas.Top="10" Width="100" Height="130" ItemsSource="{Binding MazoExtraido}">
-                        <ItemsControl.ItemsPanel>
-                            <ItemsPanelTemplate>
-                                <Canvas Margin="2">
-                                    <Canvas.Background>
-                                        <ImageBrush Source="{Binding Reverso^}" />
-                                    </Canvas.Background>
-                                </Canvas>
-                            </ItemsPanelTemplate>
-                        </ItemsControl.ItemsPanel>
-                        <ItemsControl.ItemTemplate>
-                            <DataTemplate>
-                                <Button Command="{Binding $parent[ItemsControl].((vm:MainWindowViewModel)DataContext).CmdDevolverLista}" >
-                                    <Image Width="70" Stretch="Uniform"
-                                       ToolTip.Tip="Click para devolverla al mazo" ToolTip.Placement="Right"
-                                       Source="{Binding RutaImagen, Converter={StaticResource MiCreadordeImagenes}}" />
-                                </Button>
-                            </DataTemplate>
-                        </ItemsControl.ItemTemplate>
-                    </ItemsControl>
+                <Canvas Width="330" Height="130" Background="Yellow" Margin="1" >
+                    <StackPanel Orientation="Horizontal">
+                        <ItemsControl Canvas.Left="10" Canvas.Top="10" Width="100" Height="130" ItemsSource="{Binding MazoExtraido}">
+                            <ItemsControl.ItemsPanel>
+                                <ItemsPanelTemplate>
+                                    <Canvas Margin="5, 10">
+                                        <Canvas.Background>
+                                            <ImageBrush Source="{Binding Reverso^}" />
+                                        </Canvas.Background>
+                                    </Canvas>
+                                </ItemsPanelTemplate>
+                            </ItemsControl.ItemsPanel>
+                            <ItemsControl.ItemTemplate>
+                                <DataTemplate>
+                                    <Button Command="{Binding $parent[ItemsControl].((vm:MainWindowViewModel)DataContext).CmdDevolverLista}" >
+                                        <Image Width="70" Stretch="Uniform"
+                                           ToolTip.Tip="Click para devolverla al mazo" ToolTip.Placement="Right"
+                                           Source="{Binding RutaImagen, Converter={StaticResource MiCreadordeImagenes}}" />
+                                    </Button>
+                                </DataTemplate>
+                            </ItemsControl.ItemTemplate>
+                        </ItemsControl>
+                        
+                        <Border Background="Beige" Width="140" Height="90" CornerRadius="20" >
+                            <StackPanel Margin="10">
+                                <TextBlock FontSize="12" FontWeight="Bold" Text="Ordenar por:"/>
+                                <RadioButton Name="RbtPaloValor" IsChecked="{Binding OrdenTotal}" FontSize="12" Content="Palo y valor" />
+                                <RadioButton Name="RbtPalo" FontSize="12" Content="Solo valor"/>
+                            </StackPanel>
+                        </Border>
+                    </StackPanel>
                 </Canvas>
                 <ItemsControl Name="ElMazo" ItemsSource="{Binding Mazo}">
                     <ItemsControl.ItemsPanel>
@@ -88,7 +98,7 @@
                 <DockPanel DockPanel.Dock="Bottom">
                     <Button DockPanel.Dock="Right" ToolTip.Tip = "Fin del programa" Background="Red" Foreground="White" Name="BtnSalir" Content="Salir" Click="BtnSalir_OnClick"/>
                     <Button DockPanel.Dock="Left" Name="BtnBarajar" ToolTip.Tip = "Mezclar los naipes" Content="Barajar" Command="{Binding CmdBarajar}" />
-                    <Button DockPanel.Dock="Left" Name="BtnOrdenar" ToolTip.Tip = "Ordenar por palos y valor" Content="Ordenar" Command="{Binding CmdOrdenar}" />
+                    <Button DockPanel.Dock="Left" Name="BtnOrdenar" ToolTip.Tip = "Ordenar naipes según selección" Content="Ordenar" Command="{Binding CmdOrdenar}" />
                     <Button DockPanel.Dock="Left" Name="BtnExtraer" ToolTip.Tip = "Sacar un naipe y mostrarlo" IsEnabled="{Binding PuedoExtraer}" Content="Extraer" Command="{Binding CmdExtraer}" />
                     <Button DockPanel.Dock="Left" Background="Green" Name="BtnReset" ToolTip.Tip = "Iniciar el juego" Content="Reset" Command="{Binding CmdReset}" />
                 </DockPanel>
