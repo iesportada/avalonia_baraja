@@ -47,13 +47,11 @@
                         </ItemsControl.ItemsPanel>
                         <ItemsControl.ItemTemplate>
                             <DataTemplate>
-                                <StackPanel Orientation="Vertical">
-                                    <Button Command="{Binding $parent[ItemsControl].((vm:MainWindowViewModel)DataContext).CmdDevolverLista}" >
-                                        <Image Width="70" Stretch="Uniform"
-                                           ToolTip.Tip="Click para devolverla al mazo" ToolTip.Placement="Right"
-                                           Source="{Binding RutaImagen, Converter={StaticResource MiCreadordeImagenes}}" />
-                                    </Button>
-                                </StackPanel>
+                                <Button Command="{Binding $parent[ItemsControl].((vm:MainWindowViewModel)DataContext).CmdDevolverLista}" >
+                                    <Image Width="70" Stretch="Uniform"
+                                       ToolTip.Tip="Click para devolverla al mazo" ToolTip.Placement="Right"
+                                       Source="{Binding RutaImagen, Converter={StaticResource MiCreadordeImagenes}}" />
+                                </Button>
                             </DataTemplate>
                         </ItemsControl.ItemTemplate>
                     </ItemsControl>

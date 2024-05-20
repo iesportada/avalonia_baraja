@@ -14,26 +14,12 @@ public sealed class MainWindowViewModel : INotifyPropertyChanged
 {
     private readonly BarajaSP _miBaraja = new BarajaSP();
     private readonly BarajaSP _listaExtraidos = new BarajaSP(0); // la iniciamos con 0 cartas
-    private Bitmap? _naipeExtraido;
-
     public int NumeroNaipes => _miBaraja.NumNaipes;
     public ObservableCollection<Naipe> Mazo => _miBaraja.Mazo;
     public ObservableCollection<Naipe> MazoExtraido => _listaExtraidos.Mazo;
     public int NumPalos { get; } = Enum.GetValues(typeof(PaloSP)).Length;
     public int NumValores { get; } = Enum.GetValues(typeof(Figura)).Length;
     
-    public Bitmap? NaipeExtraido
-    {
-        get => _naipeExtraido!;
-        set
-        {
-            if (!Equals(value, _naipeExtraido))
-            {
-                _naipeExtraido = value;
-                OnPropertyChanged();
-            }
-        }
-    }
     public Task<Bitmap?> Reverso => ImageHelper.LoadFromWeb(new Uri("https://iesportada.org/joomla/images/reverso.jpg"));
     public bool PuedoExtraer => _miBaraja.NumNaipes > 0;
     public string ListadoNaipes => _miBaraja.ToString();
@@ -68,8 +54,6 @@ public sealed class MainWindowViewModel : INotifyPropertyChanged
         if (PuedoExtraer)
         {
             var extraido = (Naipe?) _miBaraja.ExtraerNaipe()!;
-            
-            NaipeExtraido = ImageHelper.LoadFromResource(new Uri(extraido.RutaImagen));
             MazoExtraido.Add(extraido);
             OnPropertyChanged(nameof(ListadoNaipes));
             OnPropertyChanged(nameof(NumeroNaipes));
@@ -81,7 +65,6 @@ public sealed class MainWindowViewModel : INotifyPropertyChanged
     {
         _miBaraja.Reset();
         _listaExtraidos.Vaciar();
-        NaipeExtraido = null;
         OnPropertyChanged(nameof(ListadoNaipes));
         OnPropertyChanged(nameof(NumeroNaipes));
         OnPropertyChanged(nameof(PuedoExtraer));
