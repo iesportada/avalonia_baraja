@@ -9,9 +9,4 @@ public partial class MainWindow : Window
     {
         InitializeComponent();
     }
-
-    private void BtnSalir_OnClick(object? sender, RoutedEventArgs e)
-    {
-        Close();
-    }
 }

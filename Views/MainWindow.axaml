@@ -8,6 +8,7 @@
         mc:Ignorable="d" d:DesignWidth="{Binding $self.Width}" d:DesignHeight="{Binding $self.Height}"
         x:Class="MVVM_Baraja.Views.MainWindow"
         x:DataType="vm:MainWindowViewModel"
+        x:Name="WinPrincipal"
         Icon="/Assets/avalonia-logo.ico"
         Title="Baraja de naipes españoles"
         Width="350" Height="650"
@@ -29,7 +30,6 @@
         <TextBlock DockPanel.Dock = "Top" Text="{Binding Greeting}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
         <Label FontSize="12" Background="Brown" Foreground="White" Name="LblPalosBaraja" DockPanel.Dock="Top" Content="{Binding NumPalos, StringFormat='Nº de Palos: {0}'}"/>
         <Label FontSize="12" Background="Brown" Foreground="White" Name="LblValoresBaraja" DockPanel.Dock="Top" Content="{Binding NumValores, StringFormat='Nº de Naipes / Palo: {0}'}"/>
-        
         <Label Background="Brown" Foreground="White" Name="LblEstado" DockPanel.Dock="Bottom" Content="{Binding NumeroNaipes, StringFormat='Nº de naipes: {0}'}"/>
         <Label FontSize="10" Background="Brown" Foreground="White" Name="LblEstado2" DockPanel.Dock="Bottom" Content="{Binding ListadoNaipes}"/>
         
@@ -96,7 +96,11 @@
                 </ItemsControl>
                 
                 <DockPanel DockPanel.Dock="Bottom">
-                    <Button DockPanel.Dock="Right" ToolTip.Tip = "Fin del programa" Background="Red" Foreground="White" Name="BtnSalir" Content="Salir" Click="BtnSalir_OnClick"/>
+                    <Button DockPanel.Dock="Right" ToolTip.Tip = "Fin del programa" 
+                            Background="Red" Foreground="White" 
+                            Name="BtnSalir" Content="Salir" 
+                            Command="{Binding CmdSalir}"
+                            CommandParameter="{Binding #WinPrincipal}"/>
                     <Button DockPanel.Dock="Left" Name="BtnBarajar" ToolTip.Tip = "Mezclar los naipes" Content="Barajar" Command="{Binding CmdBarajar}" />
                     <Button DockPanel.Dock="Left" Name="BtnOrdenar" ToolTip.Tip = "Ordenar naipes según selección" Content="Ordenar" Command="{Binding CmdOrdenar}" />
                     <Button DockPanel.Dock="Left" Name="BtnExtraer" ToolTip.Tip = "Sacar un naipe y mostrarlo" IsEnabled="{Binding PuedoExtraer}" Content="Extraer" Command="{Binding CmdExtraer}" />
